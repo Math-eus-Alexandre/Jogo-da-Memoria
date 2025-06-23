@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     srand(time(0));
 
-    int matriz[TAM][TAM]={1,4,5,2,7,2,8,7,3,6,1,4,6,5,3,8}, matrizGabarito[TAM][TAM], matrizJogo[TAM][TAM], i, j, k=0, l, primeiroPalpiteLinha, primeiroPalpiteColuna,
+    int matriz[TAM][TAM]={1,4,5,2,7,2,8,7,3,6,1,4,6,5,3,8}, matrizGabarito[TAM][TAM], matrizJogo[TAM][TAM]{0}, i, j, k=0, l, primeiroPalpiteLinha, primeiroPalpiteColuna,
         segundoPalpiteLinha, segundoPalpiteColuna;
 
 
@@ -92,6 +92,18 @@ int main() {
     
     // Início do jogo
     do {
+
+        for (i = 0; i < TAM; i++) {
+           for (j = 0; j < TAM; j++) {
+            if(matrizJogo[i][j] != 0) {
+                cout << matrizJogo[i][j] << '\t';
+            } else {
+                cout << "X" << '\t';
+            }
+        }
+        cout << endl;
+        }
+    cout << endl;
     // Obtém a primeira coordenada do palpite
     cout << "Digite a primeira coordenada: " << endl << "X x X: ";
     cin >> primeiroPalpiteLinha;
@@ -107,16 +119,42 @@ int main() {
     cout << segundoPalpiteLinha << " x " << segundoPalpiteColuna << endl << endl;
     
     // Printa a matriz com as coordenadas escolhidas
+
+    cout<<"\033c"; // Limpa a tela (funciona no terminal Linux)
+
+    int x, y;
+    x = matrizGabarito[primeiroPalpiteLinha][primeiroPalpiteColuna];
+    y = matrizGabarito[segundoPalpiteLinha][segundoPalpiteColuna];
+    if(x == y) {
+        matrizJogo[primeiroPalpiteLinha][primeiroPalpiteColuna] = x;
+        matrizJogo[segundoPalpiteLinha][segundoPalpiteColuna] = y;
+        cout << "Parabéns! Você acertou!" << endl;
+    }else {
+        cout << "Que pena! Você errou! Aperte qualquer tecla para tentar novamente." << endl;
+    }
+
+    // Printa a matriz gabarito com as coordenadas escolhidas
+    
     for (i = 0; i < TAM; i++) {
         for (j = 0; j < TAM; j++) {
-            if((primeiroPalpiteLinha == (i + 1)  and primeiroPalpiteColuna == (j + 1)) or (segundoPalpiteLinha == (i + 1) and segundoPalpiteColuna == (j + 1))) {
+            if((i == primeiroPalpiteLinha && j == primeiroPalpiteColuna) || (i == segundoPalpiteLinha && j == segundoPalpiteColuna)) {
             cout << matrizGabarito[i][j] << '\t';    
-            } else {
+            }else if(matrizJogo[i][j] != 0) {
+            cout << matrizJogo[i][j] << '\t';
+            } 
+            else {
             cout << "X" << '\t';
             }
+
         }
-    cout << endl;
-    }
+        cout << endl;
+        }
+    cin.ignore();
+    system("pause"); // Pausa para o usuário ver o resultado
+
+
+    
+    
     } while(true);
     
     return 0;
